@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RegionCodes</string>
+    <string name="app_name">Коды регионов</string>
     <string name="insert_reg">Введите номер региона</string>
     <string name="xxx">XXX</string>
     <string name="b0">0</string>
@@ -13,8 +13,9 @@
     <string name="b8">8</string>
     <string name="b9">9</string>
     <string name="bC">C</string>
-    <string name="bBs">Bsp</string>
-// menu
+    <string name="bBs">BSP</string>
+    <string name="AllRegions">Коды всех регионов</string>
+    // menu
     <string name="item1">Item1</string>
     <string name="item2">Item2</string>
     <string name="item3">Item3</string>

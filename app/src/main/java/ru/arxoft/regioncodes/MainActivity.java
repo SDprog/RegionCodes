@@ -1,18 +1,25 @@
 package ru.arxoft.regioncodes;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    TextView tvUp;
+
     TextView editNumber;
     TextView tvRegion;
     Button button0;
@@ -31,12 +38,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tvUp = findViewById(R.id.tvUp);
         editNumber = findViewById(R.id.editNumber);
         tvRegion = findViewById(R.id.tvRegion);
         button0 = findViewById(R.id.button0);
@@ -66,10 +73,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonDel.setOnClickListener(this);
         buttonC.setOnClickListener(this);
 
+        if (savedInstanceState != null) {
+            str = savedInstanceState.getString("edit_number");
+            editNumber.setText(savedInstanceState
+                    .getString("edit_number"));
+
+            if (Map.containsKey(str)) {
+                tvRegion.setText(Objects.requireNonNull(Map.get(str)));
+            } else if (str.length() > 2) {
+                tvRegion.setText("Такого кода не существует!");
+                Toast.makeText(this, "Такого региона не существует. " +
+                        "Трехзначный код региона должен начинаться с единицы или семерки!", Toast.LENGTH_SHORT).show();
+            }
+        }
 
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -123,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.buttonDel:
-                if(str.length()>0) {
+                if (str.length() > 0) {
                     str = editNumber.getText().toString().substring(0, str.length() - 1);
                     editNumber.setText(str);
                     break;
@@ -131,27 +152,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.buttonC:
                 str = "";
-                tvRegion.setText("");
+                tvRegion.setText("Введите номер региона");
                 editNumber.setText(str);
 
 
         }
         if (Map.containsKey(str)) {
-            tvRegion.setText(Map.get(str).toString());
+            tvRegion.setText(Objects.requireNonNull(Map.get(str)));
         } else if (str.length() > 2) {
 
-            tvRegion.setText("");
+            tvRegion.setText("Такого кода не существует!");
             Toast.makeText(this, "Такого региона не существует. " +
-                    "Трехзначный код региона должен начинаться с единицы или семерки!", Toast.LENGTH_LONG).show();
+                    "Трехзначный код региона должен начинаться с единицы или семерки!", Toast.LENGTH_SHORT).show();
         }
     }
 
+    public void allRegions(View view) {
+        Intent intent = new Intent(this, ListRegions.class);
+        startActivity(intent);
+    }
 
-
-    private static final java.util.Map Map;
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("edit_number", editNumber.getText().toString());
+    }
+    static ArrayList<String> allRegionsStr = new ArrayList<>();
+    static Map<String, String> Map;
 
     static {
-        HashMap<String, String> map = new HashMap();
+        HashMap<String, String> map = new HashMap<>();
         map.put("01", "Республика Адыгея");
         map.put("02", "Республика Башкортостан");
         map.put("03", "Республика Бурятия");
@@ -287,5 +317,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         map.put("777", "город Москва");
         map.put("799", "город Москва");
         Map = Collections.unmodifiableMap(map);
+
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+        allRegionsStr.add(key + " - " + value);
+        Collections.sort(allRegionsStr);
     }
-}
+
+
+
+        // do what you have to do here
+        // In your case, another loop.
+    }
+    }
