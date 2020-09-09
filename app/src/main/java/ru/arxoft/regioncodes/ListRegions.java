@@ -8,9 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.Map;
-
 public class ListRegions extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
     MyRecyclerViewAdapter adapter;
 
@@ -23,7 +20,7 @@ public class ListRegions extends AppCompatActivity implements MyRecyclerViewAdap
 
 
         // настроить RecyclerView set up the RecyclerView
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvRegions);
+        RecyclerView recyclerView = findViewById(R.id.rvRegions);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new MyRecyclerViewAdapter(this, MainActivity.allRegionsStr);
         adapter.setClickListener(this);
@@ -32,6 +29,6 @@ public class ListRegions extends AppCompatActivity implements MyRecyclerViewAdap
 
     @Override
     public void onItemClick(View view, int position) {
-        Toast.makeText(this, "You clicked " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, adapter.getItem(position), Toast.LENGTH_SHORT).show();
     }
 }

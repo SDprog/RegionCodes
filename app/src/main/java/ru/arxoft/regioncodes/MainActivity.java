@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String str = "";
 
 
-
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onSaveInstanceState(outState);
         outState.putString("edit_number", editNumber.getText().toString());
     }
+
     static ArrayList<String> allRegionsStr = new ArrayList<>();
     static Map<String, String> Map;
 
@@ -321,13 +321,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for (Map.Entry<String, String> entry : map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-        allRegionsStr.add(key + " - " + value);
-        Collections.sort(allRegionsStr);
-    }
+            allRegionsStr.add(key + " - " + value);
+            Collections.sort(allRegionsStr);
+        }
 
-
-
-        // do what you have to do here
-        // In your case, another loop.
     }
-    }
+}
