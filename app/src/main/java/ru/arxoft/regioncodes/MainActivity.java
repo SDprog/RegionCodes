@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 str = "";
                 tvRegion.setText("Введите номер региона");
                 editNumber.setText(str);
+                break;
 
 
         }
